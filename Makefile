@@ -4,10 +4,14 @@ export $(shell sed 's/=.*//' ./env.env)
 env:
 	@env | grep PIPELINE
 
-# run via go run
+# run service
 run:
 	cd cmd/app && ./pipe
 
 ## build binary 
 build:
-	@cd cmd/app && go build -o pipe
+	cd cmd/app && go build -o pipe
+
+## build and run
+up:
+	make build && make run

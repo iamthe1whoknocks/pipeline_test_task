@@ -6,3 +6,14 @@
 4. Публикатор: вывод на консоль текущего значения аккумулятора каждые K секунд (K задается в виде env переменной)
 
 
+# Manual
+
+## Run service
+`make up`
+
+## Build binary
+`make build`
+
+## Run binary
+`make run`
+
