@@ -8,7 +8,7 @@
 
 # Manual
 
-## Run service
+## Build and run service
 `make up`
 
 ## Build binary
@@ -16,4 +16,14 @@
 
 ## Run binary
 `make run`
+
+# Config
+## config file 
+`env.env`
+
+## Values
+1. `PIPELINE_NEW_INPUT_TIME_MS` - time (in ms) to send new data batch to handler 
+2. `PIPELINE_WORKER_NUM` - handler workers count
+3. `PIPELINE_PUBLICATOR_OUTPUT_TIME_SEC` - time (in sec) to publicate result of accumlator value in stdout
+
 

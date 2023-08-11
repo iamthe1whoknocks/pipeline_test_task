@@ -45,8 +45,6 @@ func (h *Handler) Run(ctx context.Context, wg *sync.WaitGroup) {
 			log.Printf("handler - Run ctx.Done()")
 			return
 		default:
-			// case data := <-h.ReceiveCh:
-			// 	handleSlice(data, h.InputSliceLength, h.OutputSliceLength)
 		}
 	}
 }
