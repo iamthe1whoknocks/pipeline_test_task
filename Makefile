@@ -6,4 +6,4 @@ env:
 
 # run via go run
 run:
-	go run main.go
+	cd cmd/app && go run main.go
