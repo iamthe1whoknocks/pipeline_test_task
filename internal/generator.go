@@ -28,7 +28,7 @@ func NewGenerator(cfg *config.Config, ch chan []int) *Generator {
 }
 
 // generate new slices and send to chan every SendTime ms
-func (g *Generator) Generate(ctx context.Context) {
+func (g *Generator) Run(ctx context.Context) {
 	ticker := time.NewTicker(g.SendTime)
 	defer ticker.Stop()
 

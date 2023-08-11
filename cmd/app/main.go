@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"time"
 
 	"github.com/iamthe1whoknocks/pipeline_test_task/config"
 	"github.com/iamthe1whoknocks/pipeline_test_task/internal"
@@ -19,22 +18,18 @@ func main() {
 		log.Fatalf("app - config.Load() :%s", err)
 	}
 
-	log.Printf("app - loaded config : %+v\n", cfg)
+	log.Printf("app - loaded config : \n%+v\n", cfg)
 
 	genCh := make(chan []int)
-	handlerCh := make(chan []int)
+	accumCh := make(chan []int)
+
 	gen := internal.NewGenerator(cfg, genCh)
+	go gen.Run(context.TODO())
 
-	go gen.Generate(context.TODO())
+	handler := internal.NewHandler(cfg, genCh, accumCh)
+	go handler.Run(context.TODO())
 
-	// for res := range ch {
-	// 	log.Printf("main - ch : %v", res)
-	// }
-
-	handler := internal.NewHandler(cfg, genCh, handlerCh)
-
-	go handler.Handle(context.TODO())
-
-	time.Sleep(15 * time.Second)
+	acc := internal.NewAccumulator(cfg, accumCh)
+	go acc.Run(context.TODO())
 
 }
