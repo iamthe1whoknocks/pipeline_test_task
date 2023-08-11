@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"sort"
+	"sync"
 	"time"
 
 	"github.com/iamthe1whoknocks/pipeline_test_task/config"
@@ -30,7 +31,8 @@ func NewHandler(cfg *config.Config, receiveCh, sendCh chan []int) *Handler {
 }
 
 // Handling incoming data from generator and send to SendCh
-func (h *Handler) Run(ctx context.Context) {
+func (h *Handler) Run(ctx context.Context, wg *sync.WaitGroup) {
+	wg.Add(1)
 	for w := 1; w <= h.WorkerNum; w++ {
 		go h.worker(w)
 	}
@@ -38,7 +40,9 @@ func (h *Handler) Run(ctx context.Context) {
 	for {
 		select {
 		case <-ctx.Done():
-			log.Printf("handler - handle - ctx.Done()")
+			wg.Done()
+			close(h.SendCh)
+			log.Printf("handler - Run ctx.Done()")
 			return
 		default:
 			// case data := <-h.ReceiveCh:

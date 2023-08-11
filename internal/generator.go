@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"math/big"
+	"sync"
 	"time"
 
 	"github.com/iamthe1whoknocks/pipeline_test_task/config"
@@ -28,14 +29,17 @@ func NewGenerator(cfg *config.Config, ch chan []int) *Generator {
 }
 
 // generate new slices and send to chan every SendTime ms
-func (g *Generator) Run(ctx context.Context) {
+func (g *Generator) Run(ctx context.Context, wg *sync.WaitGroup) {
+	wg.Add(1)
 	ticker := time.NewTicker(g.SendTime)
 	defer ticker.Stop()
 
 	for {
 		select {
 		case <-ctx.Done():
-			log.Printf("generator - generate - ctx.Done()")
+			wg.Done()
+			close(g.SendCh)
+			log.Printf("generator - Run - ctx.Done()")
 			return
 		case <-ticker.C:
 			res, err := generateIntSlice(g.SliceLength)

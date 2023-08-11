@@ -6,4 +6,8 @@ env:
 
 # run via go run
 run:
-	cd cmd/app && go run main.go
+	cd cmd/app && ./pipe
+
+## build binary 
+build:
+	@cd cmd/app && go build -o pipe
