@@ -6,12 +6,12 @@ env:
 
 # run service
 run:
-	cd cmd/app && ./pipe
+	@cd cmd/app && ./pipe
 
 ## build binary 
 build:
-	cd cmd/app && go build -o pipe
+	@cd cmd/app && go build -o pipe
 
 ## build and run
 up:
-	make build && make run
+	@make build && make run
